@@ -7,17 +7,17 @@ namespace Storage.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly StorageContext _context;
+        private readonly StorageContext context;
 
         public ProductsController(StorageContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Product.ToListAsync());
+            return View(await context.Product.ToListAsync());
         }
 
         // GET: Products/Details/5
@@ -28,7 +28,7 @@ namespace Storage.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product
+            var product = await context.Product
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
@@ -53,8 +53,8 @@ namespace Storage.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
+                context.Add(product);
+                await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
@@ -68,7 +68,7 @@ namespace Storage.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product.FindAsync(id);
+            var product = await context.Product.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
@@ -92,8 +92,8 @@ namespace Storage.Controllers
             {
                 try
                 {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
+                    context.Update(product);
+                    await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -119,7 +119,7 @@ namespace Storage.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product
+            var product = await context.Product
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
@@ -134,19 +134,19 @@ namespace Storage.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Product.FindAsync(id);
+            var product = await context.Product.FindAsync(id);
             if (product != null)
             {
-                _context.Product.Remove(product);
+                context.Product.Remove(product);
             }
 
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProductExists(int id)
         {
-            return _context.Product.Any(e => e.Id == id);
+            return context.Product.Any(e => e.Id == id);
         }
     }
 }
