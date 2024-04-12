@@ -34,7 +34,6 @@ namespace Storage
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Products}/{action=Index}/{id?}");
-
             app.Run();
         }
     }
