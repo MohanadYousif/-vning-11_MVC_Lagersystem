@@ -148,5 +148,28 @@ namespace Storage.Controllers
         {
             return context.Product.Any(e => e.Id == id);
         }
+
+        public IActionResult List()
+        {
+            var products = this.context.Product.ToList(); // Hämta produkter från databasen
+
+            IEnumerable<ProductViewModel> productViewModels = products.Select(p => new ProductViewModel
+            {
+                Name = p.Name,
+                Price = p.Price,
+                Count = p.Count,
+                InventoryValue = p.Price * p.Count // Summera värdet för varje produkt
+            });
+
+            return View(productViewModels); // Returnera vyn med ProductViewModel
+        }
+
+        public IActionResult FilterByCategory(string category)
+        {
+            IEnumerable<Product> filteredProducts = this.context.Product.Where(p => p.Category.Contains(category));
+
+            return View("Index", filteredProducts);
+        }
+
     }
 }

@@ -9,6 +9,16 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<div>
+    <form asp-action="FilterByCategory">
+        <div class="form-group">
+            <input type="text" name="category" placeholder="Search by Category">
+            <button type="submit">Search</button>
+        </div>
+    </form>
+</div>
+
 <table class="table">
     <thead>
         <tr>
